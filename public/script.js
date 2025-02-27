@@ -11,5 +11,7 @@ window.onload = function() {
 
     pad.addEventListener('input', convertTextAreaToMarkdown);
 
-    convertTextAreaToMarkdown();
+    sharejs.open('home', 'text', function(error, doc) {
+        doc.attach_textarea(pad);
+    });
 }
