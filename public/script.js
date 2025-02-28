@@ -34,17 +34,15 @@ window.onload = function() {
     pad.addEventListener('input', convertTextAreaToMarkdown);
 
     // hacer que home page no muestre texto guardado
-    if (document.location.pathname > 1) {
-        const documentName = document.location.pathname.substring(1); // basicamente le quitamos / al pathname
+    if (document.location.pathname.length > 1) {
+        const documentName = document.location.pathname.replace(/^\/+/, ''); // basicamente le quitamos / al pathname
+        console.log('Nombre del documento: ' + documentName);
 
         sharejs.open(documentName, 'text', function(error, doc) {
             doc.attach_textarea(pad);
             convertTextAreaToMarkdown();
         });
-
     }
 
     convertTextAreaToMarkdown();
-
-    // si no funcioná document.location.pathname al final recuerda cambiarlo por 'home'
 }
