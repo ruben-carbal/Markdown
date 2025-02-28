@@ -5,6 +5,19 @@ window.onload = function() {
     let previousMarkdownValue;
     let markdownArea = document.getElementById('markdown');
 
+    // arreglar el tab
+    pad.addEventListener('keydown', e => {
+        if (e.key == 'Tab') {
+            e.preventDefault();
+            const start = this.selectionStart;
+            const end = this.selectionEnd;
+            const target = e.target;
+            const value = target.value;
+
+            target.value = value.substring(0, start) + "\t";
+        }
+    })
+
     const convertTextAreaToMarkdown = () => {
         const markdownText = pad.value;
         previousMarkdownValue = markdownText;
@@ -20,8 +33,18 @@ window.onload = function() {
 
     pad.addEventListener('input', convertTextAreaToMarkdown);
 
-    sharejs.open('home', 'text', function(error, doc) {
-        doc.attach_textarea(pad);
-        convertTextAreaToMarkdown();
-    });
+    // hacer que home page no muestre texto guardado
+    if (document.location.pathname > 1) {
+        const documentName = document.location.pathname.substring(1); // basicamente le quitamos / al pathname
+
+        sharejs.open(documentName, 'text', function(error, doc) {
+            doc.attach_textarea(pad);
+            convertTextAreaToMarkdown();
+        });
+
+    }
+
+    convertTextAreaToMarkdown();
+
+    // si no funcioná document.location.pathname al final recuerda cambiarlo por 'home'
 }
