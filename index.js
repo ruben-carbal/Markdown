@@ -30,7 +30,7 @@ if (process.env.REDISTOGO_URL) {
 
 // sharejs
 const options = {
-    db: { type: 'redis' },
+    db: { type: 'redis', client: redisClient },
 }
 
 sharejs.server.attach(app, options);
