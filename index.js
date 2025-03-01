@@ -23,7 +23,7 @@ console.log(process.env.REDISTOGO_URL);
 if (process.env.REDISTOGO_URL) {
     const rtg = new URL(process.env.REDISTOGO_URL);
     redisClient = require('redis').createClient({
-        url: `redis://${rtg.username}:$r{rtg.password}@${rtg.hostname}:${rtg.port}`
+        url: `redis://${rtg.username}:${rtg.password}@${rtg.hostname}:${rtg.port}`
     });
 } else {
     redisClient = require('redis').createClient();
