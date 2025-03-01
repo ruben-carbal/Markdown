@@ -1,5 +1,7 @@
 const express = require('express');
 const sharejs = require('share');
+let redisClient;
+
 require('redis');
 
 const app = express();
@@ -16,6 +18,15 @@ app.get('/', function(req, res) {
 app.get('/:id', (req, res) => {
     res.render('pad');
 });
+
+console.log(process.env.REDISTOGO_URL);
+if (process.env.REDISTOGO_URL) {
+    const rtg = new URL(process.env.REDISTOGO_URL);
+    redisClient = require('redis').createClient(rtg.port, rtg.hostname);
+    redisClient.auth(rtg.auth.split(":")[1]);
+} else {
+    redisClient = require('redis').createClient();
+}
 
 // sharejs
 const options = {
